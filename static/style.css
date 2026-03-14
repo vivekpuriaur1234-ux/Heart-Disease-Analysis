@@ -1,0 +1,102 @@
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --info-color: #0dcaf0;
+    --dark-color: #212529;
+    --light-bg: #f0f2f5;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--dark-color);
+    scroll-behavior: smooth;
+    line-height: 1.6;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%), 
+                url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    height: 65vh;
+    margin-bottom: 3rem;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+}
+
+.glassmorphism {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dashboard-container {
+    background: #fff;
+    border-radius: 20px;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0,0,0,0.03) !important;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 45px rgba(0,0,0,0.1) !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.btn-primary {
+    background-image: linear-gradient(to right, #0d6efd 0%, #0b5ed7 100%);
+    border: none;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+}
+
+.section-title {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+#priceAreaPlot .main-svg, 
+#gradeDonut .main-svg, 
+#priceHist .main-svg, 
+#bedPriceBox .main-svg {
+    background: transparent !important;
+}
+
+footer {
+    background: #111 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}

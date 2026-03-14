@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Housing Market Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">ABC Housing Analysis</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#visuals">Visualizations</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section text-center text-white d-flex align-items-center">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3">Housing Market Analysis</h1>
+            <p class="lead mb-4">Comprehensive data insights for ABC Company stakeholders.</p>
+            <a href="#visuals" class="btn btn-primary btn-lg px-5 py-3 rounded-pill fw-bold">Explore Data</a>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <section id="overview" class="mb-5">
+            <div class="row align-items-stretch">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="h-100 p-4 bg-light rounded-4 shadow-sm">
+                        <h2 class="fw-bold mb-4">Project Goal</h2>
+                        <p class="text-secondary lead">Identify factors influencing house prices and sales trends to help real estate analysts and marketing teams understand patterns in housing prices, renovation impact, and feature distributions.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm glassmorphism p-4 rounded-4">
+                        <h4 class="fw-bold mb-4">Market Snapshot</h4>
+                        <div class="row text-center g-3">
+                            <div class="col-6 col-sm-4">
+                                <div class="p-3 bg-white rounded-3 shadow-sm">
+                                    <div class="text-primary small fw-bold">Total Records</div>
+                                    <div class="h4 mb-0 fw-bold">{{ stats.total_records|default(0) }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-4">
+                                <div class="p-3 bg-white rounded-3 shadow-sm">
+                                    <div class="text-success small fw-bold">Avg Price</div>
+                                    <div class="h4 mb-0 fw-bold">${{ "{:,.0f}".format(stats.avg_price|default(0)) }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-4">
+                                <div class="p-3 bg-white rounded-3 shadow-sm">
+                                    <div class="text-info small fw-bold">Avg Area</div>
+                                    <div class="h4 mb-0 fw-bold">{{ "{:,.0f}".format(stats.avg_area|default(0)) }} sqft</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="visuals" class="mb-5 pt-4">
+            <h2 class="fw-bold mb-4 text-center">Interactive Data Visualizations</h2>
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-0">
+                            <h5 class="mb-0 fw-bold">Price vs. Flat Area</h5>
+                        </div>
+                        <div id="priceAreaPlot" style="height: 450px;"></div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-0">
+                            <h5 class="mb-0 fw-bold">Overall Grade Distribution</h5>
+                        </div>
+                        <div id="gradeDonut" style="height: 450px;"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-0">
+                            <h5 class="mb-0 fw-bold">Price Distribution (Histogram)</h5>
+                        </div>
+                        <div id="priceHist" style="height: 400px;"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-0">
+                            <h5 class="mb-0 fw-bold">Bedrooms vs. Price</h5>
+                        </div>
+                        <div id="bedPriceBox" style="height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="mb-5 pt-4">
+            <h2 class="fw-bold mb-4 text-center">Tableau Dashboard</h2>
+            <div class="dashboard-container shadow rounded-4 overflow-hidden">
+                <div class="placeholder-content d-flex align-items-center justify-content-center flex-column text-center p-5 bg-light">
+                    <img src="https://img.icons8.com/clouds/150/000000/chart-line.png" alt="Analytics Icon">
+                    <h3>Tableau Workbook Ready</h3>
+                    <p class="text-muted">The workbook has been updated with real data. Publish to Tableau Public for interactive embedding here.</p>
+                </div>
+                <!-- Example Iframe (uncomment after publishing)
+                <iframe src="YOUR_TABLEAU_EMBED_URL" width="100%" height="800px" frameborder="0"></iframe>
+                -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container text-center">
+            <p class="mb-0 text-secondary">&copy; 2024 ABC Company. Housing Market Analysis Project.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function loadDashboard() {
+            const response = await fetch('/api/data');
+            const data = await response.json();
+
+            if (!data || data.length === 0) return;
+
+            // 1. Price vs Area Scatter
+            const trace1 = {
+                x: data.map(d => d['Flat Area (in Sqft)']),
+                y: data.map(d => d['Sale_Price']),
+                mode: 'markers',
+                type: 'scatter',
+                marker: { color: '#0d6efd', opacity: 0.5, size: 8 },
+                name: 'House'
+            };
+            Plotly.newPlot('priceAreaPlot', [trace1], {
+                margin: { t: 10, r: 10, b: 40, l: 60 },
+                xaxis: { title: 'Flat Area (Sqft)' },
+                yaxis: { title: 'Sale Price ($)' },
+                hovermode: 'closest'
+            });
+
+            // 2. Grade Donut
+            const grades = data.map(d => d['Overall Grade']);
+            const gradeCounts = {};
+            grades.forEach(g => gradeCounts[g] = (gradeCounts[g] || 0) + 1);
+            
+            const trace2 = {
+                values: Object.values(gradeCounts),
+                labels: Object.keys(gradeCounts),
+                type: 'pie',
+                hole: .4,
+                marker: { colors: ['#0d6efd', '#198754', '#0dcaf0', '#ffc107', '#fd7e14', '#dc3545', '#6610f2'] }
+            };
+            Plotly.newPlot('gradeDonut', [trace2], {
+                margin: { t: 10, r: 10, b: 10, l: 10 },
+                showlegend: true,
+                legend: { orientation: 'h' }
+            });
+
+            // 3. Price Histogram
+            const trace3 = {
+                x: data.map(d => d['Sale_Price']),
+                type: 'histogram',
+                nbinsx: 30,
+                marker: { color: '#198754' }
+            };
+            Plotly.newPlot('priceHist', [trace3], {
+                margin: { t: 10, r: 10, b: 40, l: 60 },
+                xaxis: { title: 'Price Range' },
+                yaxis: { title: 'Frequency' }
+            });
+
+            // 4. Bedrooms vs Price Box Plot
+            const trace4 = {
+                y: data.map(d => d['Sale_Price']),
+                x: data.map(d => d['No of Bedrooms']),
+                type: 'box',
+                marker: { color: '#6610f2' }
+            };
+            Plotly.newPlot('bedPriceBox', [trace4], {
+                margin: { t: 10, r: 10, b: 40, l: 60 },
+                xaxis: { title: 'No of Bedrooms' },
+                yaxis: { title: 'Price ($)' }
+            });
+        }
+
+        window.onload = loadDashboard;
+        
+        // Handle window resize for Plotly responsiveness
+        window.onresize = function() {
+            ['priceAreaPlot', 'gradeDonut', 'priceHist', 'bedPriceBox'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.innerHTML !== "") Plotly.Plots.resize(el);
+            });
+        };
+    </script>
+</body>
+</html>
